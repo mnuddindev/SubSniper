@@ -121,7 +121,7 @@ func SeparateByStatus() {
 
 		statusCode := response.StatusCode
 		if statusCode == 404 {
-			w, err := notFound.WriteString(eachline)
+			w, err := notFound.WriteString(eachline + "\n")
 			if err != nil {
 				log.Fatal(err)
 				notFound.Close()
