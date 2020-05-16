@@ -16,6 +16,7 @@ func main() {
 	two := FileReader("sublister.txt")
 	FileWriter(one, two)
 	SeparateByStatus()
+	CNAMEchecker()
 }
 
 func FileReader(name string) []string {
@@ -142,4 +143,23 @@ func SeparateByStatus() {
 			fmt.Println("Listing site with Status Code 200 and 301 in 200.txt")
 		}
 	}
+}
+
+func CNAMEchecker() {
+	fmt.Println("Checking CNAME")
+	cmd := exec.Command("apt", "install", "dnsutils")
+	_, err := cmd.Output()
+	if err != nil {
+		fmt.Println("DNS Tool installation Failed")
+	}
+	cmd2 := exec.Command("python", "cname.py")
+	output, err := cmd2.Output()
+	if err != nil {
+		fmt.Println("CNAME Checking Failed")
+	}
+
+	fmt.Println(string(output))
+
+	fmt.Println("Done!! Check Possible.txt for Final Takeover possible Sites")
+	fmt.Println("Thanks")
 }

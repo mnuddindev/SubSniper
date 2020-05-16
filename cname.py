@@ -10,6 +10,7 @@ class color:
 
 for domain in a:
     if (domain == ""):
+        print("No Domain Found For Check CNAME")
         continue
 
     cmd = subprocess.check_output(['host', domain])
