@@ -7,9 +7,12 @@ import (
 	"net/http"
 	"os"
 	"os/exec"
+
+	"gopkg.in/gookit/color.v1"
 )
 
 func main() {
+	Info()
 	SubFinder()
 	SubLister()
 	one := FileReader("subfinder.txt")
@@ -17,12 +20,29 @@ func main() {
 	FileWriter(one, two)
 	SeparateByStatus()
 	CNAMEchecker()
+	FileMover()
+}
+
+func Info() {
+	logo := `
+   _____       _     _____       _                 
+  / ____|     | |   / ____|     (_)                
+ | (___  _   _| |__| (___  _ __  _ _ __   ___ _ __ 
+  \___ \| | | | '_ \\___ \| '_ \| | '_ \ / _ \ '__|
+  ____) | |_| | |_) |___) | | | | | |_) |  __/ |   
+ |_____/ \__,_|_.__/_____/|_| |_|_| .__/ \___|_|   
+                                  | |              
+                                  |_| Inad Islam
+`
+
+	color.Green.Println(logo)
+
 }
 
 func FileReader(name string) []string {
 	fileRead, err := os.Open(name)
 	if err != nil {
-		log.Fatal("Site Lists Not Found")
+		color.Red.Println("[ 🔴 ] Site Lists Not Found")
 	}
 
 	fileScanner := bufio.NewScanner(fileRead)
@@ -37,8 +57,8 @@ func FileReader(name string) []string {
 }
 
 func FileWriter(a []string, b []string) []string {
-	fmt.Println("Finding for Duplicate sites")
-	fmt.Println("Removing Duplicates Items from List")
+	color.Yellow.Println("[ ! ] Finding for Duplicate sites")
+	color.Yellow.Println("[ - ] Removing Duplicates Items from List")
 	check := make(map[string]int)
 	appenD := append(a, b...)
 	result := make([]string, 0)
@@ -51,18 +71,18 @@ func FileWriter(a []string, b []string) []string {
 
 	all, err := os.Create("all.txt")
 	if err != nil {
-		log.Fatal("Error Creating New File")
+		color.Red.Println("[ 🔴 ] Error Creating New File")
 	} else {
-		fmt.Println("Creating New File all.txt")
+		color.Green.Println("[ 🖍️ ] Creating New File all.txt")
 	}
 
 	for _, writeEach := range result {
 		write, err := all.WriteString(writeEach + "\n")
 		if err != nil {
-			log.Fatal("Error while Removing Duplicate Items")
+			color.Red.Println("[ 🔴 ] Error while Removing Duplicate Items")
 			all.Close()
 		} else {
-			fmt.Println("Duplicates Item Removed Writing into all.txt")
+			color.Yellow.Println("[ - ] Duplicates Item Removed Writing into all.txt")
 		}
 
 		_ = write
@@ -75,11 +95,11 @@ func SubFinder() {
 	com := [5]string{"subfinder", "-d", "", "-o", "subfinder.txt"}
 	com[2] = os.Args[1]
 	cmd := exec.Command(com[0], com[1:]...)
-	output, err := cmd.CombinedOutput()
+	_, err := cmd.CombinedOutput()
 	if err != nil {
-		log.Fatal("Failed to Get Subdomains From SubFinder")
+		color.Red.Println("[ 🔴 ] Failed to Get Subdomains From SubFinder")
 	}
-	fmt.Println("SubFinder> " + string(output))
+	color.Green.Println("[ + ] Collection Site By SubFinder")
 }
 
 func SubLister() {
@@ -91,11 +111,11 @@ func SubLister() {
 	com[3] = os.Args[1]
 	cmd := exec.Command(com[0], com[1:]...)
 	cmd.Dir = path + "/Sublist3r"
-	output, err := cmd.CombinedOutput()
+	_, err = cmd.CombinedOutput()
 	if err != nil {
-		log.Fatal("Failed to Get Subdomains From SubList3r")
+		color.Red.Println("[ 🔴 ] Failed to Get Subdomains From SubList3r")
 	}
-	fmt.Println("SubList3r> " + string(output))
+	color.Green.Println("[ + ] Collecting Site By Sublist3r")
 }
 
 func SeparateByStatus() {
@@ -111,12 +131,11 @@ func SeparateByStatus() {
 	}
 
 	for _, eachline := range lines {
-		fmt.Println("Reading Each line")
+		fmt.Println("[ 📖 ] Reading Each line")
 		url := "http://" + eachline
 		response, err := http.Get(url)
-		fmt.Println(url)
 		if err != nil {
-			fmt.Println("No Hostname Register")
+			color.Warn.Tips("No Hostname Register")
 			continue
 		}
 
@@ -129,7 +148,8 @@ func SeparateByStatus() {
 			}
 
 			_ = w
-			fmt.Println("Listing site With status Code 404 into 404.txt")
+			color.Yellow.Println("[ 🖍️ ] Listing site With status Code 404 into 404.txt")
+			fmt.Println(url)
 		}
 
 		if statusCode == 200 || statusCode == 300 {
@@ -140,26 +160,44 @@ func SeparateByStatus() {
 			}
 
 			_ = w
-			fmt.Println("Listing site with Status Code 200 and 301 in 200.txt")
+			color.Green.Println("[ 🖍️ ] Listing site with Status Code 200 and 301 in 200.txt")
+			fmt.Println(url)
 		}
 	}
 }
 
 func CNAMEchecker() {
-	fmt.Println("Checking CNAME")
+	fmt.Println("[ 🔍 ] Checking CNAME")
 	cmd := exec.Command("apt", "install", "dnsutils")
 	_, err := cmd.Output()
 	if err != nil {
-		fmt.Println("DNS Tool installation Failed")
+		color.Red.Println("DNS Tool installation Failed")
 	}
 	cmd2 := exec.Command("python", "cname.py")
 	output, err := cmd2.Output()
 	if err != nil {
-		fmt.Println("CNAME Checking Failed")
+		color.Red.Println("[ 🔴 ] CNAME Checking Failed")
 	}
 
 	fmt.Println(string(output))
 
-	fmt.Println("Done!! Check Possible.txt for Final Takeover possible Sites")
-	fmt.Println("Thanks")
+	color.Green.Println("Done!! Check Possible.txt for Final Takeover possible Sites")
+	color.Green.Println("Thanks")
+}
+
+func FileMover() {
+	folder := os.Args[1]
+	name := [6]string{"200.txt", "404.txt", "all.txt", "subfinder.txt", "sublister.txt", "possible.txt"}
+	move := exec.Command("mkdir", folder)
+	_, err := move.Output()
+	if err != nil {
+		color.Warn.Tips("[ 🔴  ] Failed to Move Files")
+	}
+	cmd := exec.Command("mv", name[0], name[1], name[2], name[3], name[4], name[5], "./"+folder)
+	_, err = cmd.Output()
+	if err != nil {
+		color.Warn.Tips("ল[ 🔴  ] Failed to Move Files")
+	} else {
+		color.Green.Println("[ 🖍️ ] All Files Moves to Domai Folder")
+	}
 }

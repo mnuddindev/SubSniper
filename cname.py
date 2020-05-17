@@ -10,7 +10,7 @@ class color:
 
 for domain in a:
     if (domain == ""):
-        print("No Domain Found For Check CNAME")
+        print(color.red+"No Domain Found For Check CNAME")
         continue
 
     cmd = subprocess.check_output(['host', domain])
@@ -20,7 +20,7 @@ for domain in a:
     if("is an alias for" in text):
         point = text.split('\n')
         p = point[0].split("alias for")
-        print(color.yellow+"Takeover may be Possible for "+color.green+domain)
+        print(color.green+"Takeover may be Possible for "+domain)
         c.write(domain+"@"+p[1]+"\n")
     else:
-        print(color.green+"Takeover not Possible for "+color.red+domain)
+        print(color.red+"Takeover not Possible for "+domain)
