@@ -57,8 +57,8 @@ func FileReader(name string) []string {
 }
 
 func FileWriter(a []string, b []string) []string {
-	color.Yellow.Println("[ ! ] Finding for Duplicate sites")
-	color.Yellow.Println("[ - ] Removing Duplicates Items from List")
+	color.Yellow.Println("[!] Finding for Duplicate sites")
+	color.Yellow.Println("[-] Removing Duplicates Items from List")
 	check := make(map[string]int)
 	appenD := append(a, b...)
 	result := make([]string, 0)
