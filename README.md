@@ -21,6 +21,11 @@ Install SubFinder
 go get -v github.com/projectdiscovery/subfinder/cmd/subfinder
 ```
 
+Install DNSUtils
+```sh
+apt install dnsutils
+```
+
 ## Usage
 Without Building
 ```sh
