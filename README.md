@@ -5,6 +5,7 @@ A simple tool created with Golang.
 - Sublist3r
 - SubFinder
 - GoLang
+- dnsutils
 
 ## Installation
 ```sh
