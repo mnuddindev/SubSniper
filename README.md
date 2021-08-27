@@ -2,49 +2,29 @@
 A simple tool created with Golang. 
 
 ## Package Ised
-- Sublist3r
-- SubFinder
 - GoLang
-- dnsutils
+- goment  
 
 ## Installation
 ```sh
-git clone https://github.com/inadislam/SubSniper.git
-cd SubSniper
+  First of all Fork that Repository
 ```
-Install SubList3r into SubSniper Folder
 ```sh
-git clone https://github.com/aboul3la/Sublist3r.git
-cd Sublist3r && pip install -r requirements.txt
+git clone https://yourgithub.com/that-forked-repo-url.git
+cd go-commit-bot
 ```
-Install SubFinder
-```sh
-go get -v github.com/projectdiscovery/subfinder/cmd/subfinder
-```
-
-Install DNSUtils
-```sh
-apt install dnsutils
-```
-
 ## Usage
 Without Building
 ```sh
-go run main.go [site_url]
+go run main.go
 ```
 
 By Building
 ```sh
 go build main.go
-./main [site_url]
+./main
 ```
 
-## Example
-```sh
-go run main.go example.com
-```
+Play with code to make Sign/Symbols/letters in Github contribution Graph.
 
-By building
-```sh
-./main example.com
-```
+Note: Created for just Do Fun. Have Fun 🤣😘
