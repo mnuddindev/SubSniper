@@ -1,30 +1,51 @@
 # SubSniper
-A simple tool created with Golang. 
+A simple tool to find Sub Domain Takeover Bugs using GoLang.
 
 ## Package Ised
+- Sublist3r
+- SubFinder
 - GoLang
-- goment  
+- dnsutils
 
 ## Installation
 ```sh
-  First of all Fork that Repository
+git clone https://github.com/inadislam/SubSniper.git
+cd SubSniper
 ```
+Install SubList3r into SubSniper Folder
 ```sh
-git clone https://yourgithub.com/that-forked-repo-url.git
-cd go-commit-bot
+git clone https://github.com/aboul3la/Sublist3r.git
+cd Sublist3r && pip install -r requirements.txt
 ```
+Install SubFinder
+```sh
+go get -v github.com/projectdiscovery/subfinder/cmd/subfinder
+```
+
+Install DNSUtils
+```sh
+apt install dnsutils
+```
+
 ## Usage
 Without Building
 ```sh
-go run main.go
+go run main.go [site_url]
 ```
 
 By Building
 ```sh
 go build main.go
-./main
+./main [site_url]
 ```
 
-Play with code to make Sign/Symbols/letters in Github contribution Graph.
+## Example
+```sh
+go run main.go example.com
+```
 
-Note: Created for just Do Fun. Have Fun 🤣😘
+By building
+```sh
+./main example.com
+```
+
